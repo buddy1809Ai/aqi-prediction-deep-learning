@@ -1,0 +1,969 @@
+id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+name: AQI_Prediction
+project_id: e5be0642-9d93-45d0-a268-fd0c815c5f3f
+global_imports: []
+python_global_imports: "import numpy as np\r\nimport pandas as pd\r\nimport sklearn\r\
+  \nimport xgboost\r\n"
+r_global_imports: ''
+requirements: []
+linux_packages: []
+environment_variables: []
+is_public: false
+organization_id: 941c02a7-d2c8-4ae4-8363-b290e9794917
+layers:
+- blocks:
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Inspects CPCB air quality dataset schemas across diverse cities &
+      years. Extracts column names, data types, timestamp ranges, missingness %, &
+      numeric value ranges. Confirms uniform schema across files. Identifies that
+      AQI must be computed from pollutant sub-indices using CPCB formula.
+    height: 1000
+    id: 0ed809f0-2882-4fac-a449-cd41614742ff
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 02_Schema_Sample
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 2000
+    y: 0
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "Trains CNN-BiLSTM neural networks to forecast air quality (AQI)\
+      \ across 18 cities at 1/6/24-hour horizons using lagged pollution/weather features\
+      \ and temporal embeddings. Evaluates model performance (R\xB2, MAE, RMSE) with\
+      \ checkpoint recovery."
+    height: 1000
+    id: 1624a7ff-c4dc-4036-ade3-f1d09f1190a5
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 33_Track_B_CNN_BiLSTM
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 66500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "LSTM diagnostic on Delhi NCR data: builds 2-layer LSTM to forecast\
+      \ AQI from pollutants & meteorology with 24-hour lookback, validates sequence\
+      \ generation & inverse scaling, and gates full 18-city run by R\xB2 > 0.70 pass\
+      \ threshold."
+    height: 1000
+    id: 21fe1d45-d422-4721-a694-395a5e5c41bc
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 15_LSTM_Diagnostic_DelhiNCR
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 15500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: "Creates a comprehensive mapping table (outputs/github_export_map.md)\
+      \ documenting all 100+ project files with their source blocks, readiness status,\
+      \ and notes for GitHub publication\u2014enabling clear tracking of which artifacts\
+      \ are production-ready vs. requiring Git LFS."
+    height: 1000
+    id: 2a3db447-f511-4872-9614-f388ca31b4bd
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 45_GitHub_Export_Map
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 99500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: 'Transforms cleaned air quality data into ML-ready features: creates
+      time-based (cyclical hour/month), lag, rolling statistics, trend, and interaction
+      features; encodes cities; saves engineered datasets per city.'
+    height: 1000
+    id: 2d2d0e3d-84ce-49b4-8377-8689872f1936
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 06_Feature_Engineering
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 1600
+    x: 10000
+    y: 0
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Trains Ridge regression models to predict air quality index (AQI)
+      across multiple cities using meteorological and pollutant features. Evaluates
+      performance on test sets and logs results with checkpoint recovery capability.
+    height: 1000
+    id: 33e01243-cb80-41ca-8ff9-a849c04d7391
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 17_Track_A_Ridge_All_Cities
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 21500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Verifies 10 critical readiness criteria (research complete, results
+      locked, paper package, figures, documentation, Streamlit architecture, GitHub
+      guide, leakage audit, reproducibility, publication-ready) by checking for required
+      files and correct data dimensions. Generates a certification markdown report
+      confirming repository readiness for GitHub push and publication.
+    height: 1000
+    id: 347d9788-814e-4419-88a0-2c8c7dc48783
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 48_Final_Readiness_Certificate
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 108500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Analyzes and interprets feature importance from air quality model
+      to explain why PM2.5 dominates AQI prediction, including city-specific variations
+      and meteorological/temporal patterns. Generates publication-ready visualization
+      and scientific narrative document.
+    height: 1000
+    id: 35fa8166-68a4-4317-8897-3829f705c137
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 37_Feature_Importance_Interpretation
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 75500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: "Audits final model results across two tracks (AQI estimation & forecasting)\
+      \ by validating file existence, row counts, duplicate checks, missing metrics,\
+      \ null values, and R\xB2 ranges. Generates a markdown report documenting all\
+      \ consistency checks and issues found."
+    height: 1000
+    id: 37185cc0-9002-4dcd-9643-916817d83a79
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 35_Results_Validation
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 69500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: Audits CPCB air quality dataset across 19 Indian cities. Scans CSV
+      files, identifies stub files (empty headers), counts rows per city, extracts
+      schemas, maps pollutant/meteorological/AQI columns, detects data gaps, and generates
+      inventory with memory estimates and LSTM modeling recommendations.
+    height: 1000
+    id: 3ab2c7d7-07f3-446b-8565-4d4ca60b1dd4
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: python_block
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 0
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: 'Detects data leakage in AQI models by comparing three Random Forest
+      scenarios: same-time pollutants (formula reconstruction), weather/time only
+      (baseline), and lagged features (true forecasting). Quantifies whether models
+      overfit to AQI estimation formulas versus leveraging genuine predictive signals.'
+    height: 1000
+    id: 3b003169-4154-49d5-a2fe-448eb6e799f3
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: P2_Leakage_Experiments
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 4000
+    y: 9500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Quantifies effect sizes across Track A/B models vs. GradBoost champion,
+      comparing classical ML vs. deep learning performance, analyzing horizon-dependent
+      accuracy degradation, and exports summary tables and findings to CSV/Markdown.
+    height: 1000
+    id: 3b8eaa5d-3b41-4dc9-8a70-9ae2d746e45a
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 36_Effect_Size_Analysis
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 72500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: medium
+    description: "Trains Gradient Boosting models to predict air quality index (AQI)\
+      \ across multiple cities using pollutant, meteorological, and time-based features.\
+      \ Evaluates performance with R\xB2, MAE, and RMSE metrics, saves results to\
+      \ checkpoint CSV."
+    height: 1000
+    id: 43583fbc-0d0b-4d29-accd-362598eae26a
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 19_Track_A_GBR_All_Cities
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 27500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: "Comprehensive comparison of 7 machine learning models across 2 AQI\
+      \ prediction tracks, generating ranked tables by performance (R\xB2, MAE, RMSE),\
+      \ city-level analysis, deep learning vs classical ML benchmarks, and publication-ready\
+      \ visualizations with dark-themed charts."
+    height: 1000
+    id: 51e66024-56b3-4111-826f-9eb35c821ab0
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 28_Scientific_Comparison
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 51500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "Trains Ridge, Random Forest, and Gradient Boosting models across\
+      \ 18 cities using only meteorological, pollutant, and temporal features\u2014\
+      excluding AQI-derived features to establish an honest scientific baseline. Generates\
+      \ R\xB2 performance heatmap and ranks best models per city for LSTM benchmarking."
+    height: 1000
+    id: 535ca9e0-ff43-4c62-a206-6e99c74b53b8
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 10_Full_Baseline_All_Cities
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 1600
+    x: 18000
+    y: 0
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: "Trains XGBoost models across all cities to predict AQI using weather,\
+      \ pollutant, and temporal features. Evaluates performance (R\xB2, MAE, RMSE)\
+      \ on test sets and logs results with checkpoint recovery for resumable processing."
+    height: 1000
+    id: 57f72620-73f0-4637-b193-297d37cf5616
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 20_Track_A_XGB_All_Cities
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 30500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: 'Generates 9 exploratory data visualizations analyzing air quality
+      across multiple cities: AQI distribution, mean AQI by city, category breakdown,
+      monthly/hourly/seasonal/yearly trends, PM2.5 correlation, and pollutant heatmaps.'
+    height: 1000
+    id: 5bb241cb-bcf0-4d03-b8b1-bcc0a95619d8
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 05_EDA
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 1600
+    x: 8000
+    y: 0
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: xlarge
+    description: "Trains LSTM models to forecast AQI values at 1, 6, and 24-hour horizons\
+      \ for 18 cities using lagged features, rolling statistics, meteorological data,\
+      \ and temporal patterns. Evaluates performance with R\xB2, MAE, and RMSE metrics."
+    height: 1000
+    id: 68496d32-328a-4231-be1f-ad7714ae1576
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 25_Track_B_LSTM
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 42500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Cleans engineered air quality data by dropping high-missingness features
+      (>95%), removing AQI-derived columns to prevent leakage, imputing missing values,
+      and saving recovered datasets. Generates per-city feature recovery audit tracking
+      row counts and feature availability for estimation vs. forecasting tracks.
+    height: 1000
+    id: 6c3c5c5b-fa47-4ffd-9c9b-ad44814b0534
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: P1_City_Recovery
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 2000
+    y: 9500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Verifies GitHub readiness by auditing all 51+ expected output files
+      (CSVs, JSONs, PNGs, markdown docs) across Track A/B models, leakage certificates,
+      and comparison reports. Generates repository structure skeleton with .gitignore,
+      requirements.txt, and README template for publication.
+    height: 1000
+    id: 7a8a712f-0450-48ef-9efb-c1b510965484
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 42_GitHub_Readiness
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 90500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Generates a comprehensive GitHub push guide (docs/github_push_guide.md)
+      with repository metadata, directory structure, .gitignore rules, Git LFS configuration,
+      step-by-step push commands, pre-flight checklist, and citation template for
+      publishing the AQI dual-track research project.
+    height: 1000
+    id: 808bca00-962c-4bb4-b578-ca520c85d5e3
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 47_GitHub_Push_Guide
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 105500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: Validates 10 Python packages (numpy, pandas, scikit-learn, xgboost,
+      h5py, tensorflow, keras, matplotlib, scipy, pyarrow) and reports their versions.
+      Confirms readiness for AQI estimation/forecasting tasks, identifies deep-learning
+      backend availability (Keras/TensorFlow vs sklearn MLP fallback), and exports
+      environment capability flags.
+    height: 1000
+    id: 87ed9f2f-d7c7-43b1-bce0-9139bdd8d191
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 12_Environment_Verification
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 3500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Validates Track A model leakage, certifies scientific validity, analyzes
+      city difficulty, explains LSTM underperformance vs GradBoost, ranks feature
+      importance, and generates publication-ready audit reports with visualizations.
+    height: 1000
+    id: 96ff7fd4-a048-4660-a390-33254dd24497
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 27_Track_A_Audit
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 48500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: "Summarizes an 18-city AQI prediction study comparing 7 classical\
+      \ & deep learning models across 450 evaluations. Reports Track A results (GradBoost\
+      \ R\xB2=0.9906) and Track B forecasting performance (R\xB2=0.4997), confirms\
+      \ leakage audit compliance, and generates publication-ready figures and markdown\
+      \ documentation for venue submission (Environmental Modelling & Software)."
+    height: 1000
+    id: 97d7f90a-54bf-4ff4-8793-9c693939eac7
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 40_Final_Internship_Summary
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 84500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: "Generates deployment recommendations for two AQI prediction apps:\
+      \ (1) Estimation service using GradBoost for real-time AQI reconstruction from\
+      \ concurrent sensors (R\xB2=0.99); (2) Forecasting service for 1h/6h/24h ahead\
+      \ predictions without live data (R\xB2=0.50 avg). Includes model comparisons,\
+      \ API specs, system architecture, and city-specific caveats."
+    height: 1000
+    id: 9a944533-5e5c-4254-9271-ccb63c6e64ca
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 38_Deployment_Recommendations
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 78500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Audits all 42 repository blocks, classifies each as Keep/Delete,
+      and outputs a cleanup report with category breakdowns, deletion reasons, and
+      recommended pipeline execution order.
+    height: 1000
+    id: 9ae92353-c0c0-4b07-8320-e286b3c2e1b1
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 41_Repository_Cleanup_Report
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 87500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "Trains a 2-layer LSTM model (64\u219232 units) on 18 cities to estimate\
+      \ real-time AQI using same-time pollutants, meteorological, and temporal features.\
+      \ Outputs performance metrics (R\xB2, MAE, RMSE) to CSV and generates a comparative\
+      \ R\xB2 bar chart by city."
+    height: 1000
+    id: a31bb701-c0a6-4a99-a9cc-5983e227db29
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 16_Track_A_LSTM_All_Cities
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 18500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "Trains Random Forest models to forecast Air Quality Index (AQI)\
+      \ 1/6/24 hours ahead for 18 cities using pollutant lags, rolling stats, meteorological,\
+      \ and temporal features\u2014excludes same-timestamp pollutants and AQI-derived\
+      \ features. Outputs model performance metrics (R\xB2, MAE, RMSE) per city/horizon\
+      \ with checkpoint recovery."
+    height: 1000
+    id: a5cc0cdb-085a-4ee7-a170-4fdefe18bdb9
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 22_Track_B_RF
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 33500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "Trains CNN-BiLSTM deep learning models across multiple cities to\
+      \ predict AQI (Air Quality Index) values from air quality and meteorological\
+      \ time-series data; evaluates performance via R\xB2, MAE, and RMSE metrics with\
+      \ checkpoint resume capability."
+    height: 1000
+    id: a6853ac1-8624-415e-8240-5e36487424cf
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 31_Track_A_CNN_BiLSTM
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 60500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "Generates final research verdict comparing AQI estimation vs. forecasting\
+      \ models across 18 Indian cities. Analyzes Track A (same-timestamp inputs, R\xB2\
+      \u22480.99) vs Track B (lagged inputs, R\xB2\u22480.53), ranks models (GradBoost\
+      \ best), conducts 10-question scientific audit addressing leakage, methodology\
+      \ validity, and deployment recommendations."
+    height: 1000
+    id: bdd81254-d146-4955-ad42-c97de3bb5831
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 29_Research_Verdict
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 54500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "Trains 5 regression models (Ridge, Random Forest, Gradient Boosting,\
+      \ XGBoost, Keras LSTM) on multi-city AQI data to predict air quality using same-timestamp\
+      \ meteorological and pollutant features. Evaluates performance on test sets\
+      \ with R\xB2, MAE, and RMSE metrics. Gradient Boosting achieves best results\
+      \ (R\xB2=0.9876) across cities."
+    height: 1000
+    id: c03bb450-cbf5-4be1-903f-a699fbca911d
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 13_Track_A_Estimation
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 6500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: "Creates a comprehensive Streamlit app design document for dual-track\
+      \ AQI prediction system: Track A (real-time estimation from sensor inputs using\
+      \ 7 models) and Track B (24h forecasting at 1h/6h/24h horizons). Includes full\
+      \ UI specs, model loading strategy, deployment requirements, and comparison\
+      \ dashboard. Design-only\u2014no code execution."
+    height: 1000
+    id: ca97b216-5b85-4e37-9092-c655fc0448a2
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 46_Streamlit_Design
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 102500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: 'Audits engineered air quality datasets across cities, comparing
+      cleaned vs. engineered row counts, calculating per-feature missingness by category
+      (pollutants, meteorology, time, interactions, lags), determining why cities
+      were dropped (missing AQI, insufficient non-null rows, etc.), and generating
+      two CSV reports: city-level forensics and feature-level missingness analysis.'
+    height: 1000
+    id: cc7b040e-e45f-4d90-8c00-c5e90e4b7e21
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: P0_City_Forensics
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 9500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Comprehensive Q&A document addressing leakage concerns, AQI formula
+      validity, deep learning limitations, and recommendations for 18-city air quality
+      forecasting study. Covers data integrity checks, architecture mismatches, and
+      model comparison rationale across estimation vs. forecasting tracks.
+    height: 1000
+    id: d18e6823-6940-4045-969a-009f186b3a33
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 39_Reviewer_QA
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 81500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: medium
+    description: "Validates scientific integrity of AQI prediction model by: (1) cataloging\
+      \ 88 safe features excluding data-leaking AQI-derived variables, (2) proving\
+      \ AQI is mathematically identical to same-timestamp pollutant formulas (R\xB2\
+      \u22650.95), (3) comparing task-type experiments to confirm model is estimation\
+      \ not forecasting, and (4) declaring final validity verdict."
+    height: 1000
+    id: d1d3c6f4-a381-472e-9a43-abd4ff66ee0f
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 11_Scientific_Validation
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 1600
+    x: 20000
+    y: 0
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "Trains Gradient Boosting Regressors to forecast AQI 1/6/24 hours\
+      \ ahead across 18 cities using lagged, rolling, meteorological, and temporal\
+      \ features. Evaluates models on test sets and logs performance metrics (R\xB2\
+      , MAE, RMSE) with checkpoint recovery."
+    height: 1000
+    id: d879f37c-198d-4ea2-b514-6ab072336e38
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 23_Track_B_GBR
+    parent_id: null
+    properties:
+      interactive_execution: false
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 36500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Performs a comprehensive lineage audit of copy blocks across the
+      forecasting pipeline. Inventories all output files (GBR, XGB, LSTM, BiLSTM,
+      RF, CNN-BiLSTM), compares copy blocks to originals using deep column-level diffs,
+      verifies master merge sourcing, and generates a safety assessment table determining
+      which copy blocks are safe to delete based on evidence of identical outputs,
+      missing downstream references, and successful originals.
+    height: 1000
+    id: d9652837-b150-4ea6-bfd2-40366e2f8c0d
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 43_Block_Lineage_Audit
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 93500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Audits CPCB multi-city air quality dataset (19 cities, 18.7M 15-min
+      records), identifying data gaps, schema issues, stub files, and year coverage.
+      Generates inventory tables, quality flags, and recommends hybrid LSTM modeling
+      strategy. Produces bar and heatmap visualizations.
+    height: 1000
+    id: d99accbd-56b5-47da-a334-00ce1bb2a510
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 03_Inventory_Report
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 1600
+    x: 4000
+    y: 0
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: 'Persists leakage audit outputs to disk: feature catalog (114 features),
+      experiment results across 4 experiments & 2 cities, verdict summary, and split
+      metadata. Converts numpy types for JSON serialization. Displays a summary table
+      with performance deltas and leakage severity flags.'
+    height: 1000
+    id: e61d1e23-2dd2-437e-9113-47184fb27ae3
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 09_Save_Leakage_Artifacts
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 1600
+    x: 16000
+    y: 0
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Documents the complete AQI prediction workspace by mapping all 39
+      canvas blocks into 6 logical sections (data audit, estimation, forecasting,
+      analysis, deployment, and archived). Generates a markdown organization guide
+      with execution phases and lineage audit.
+    height: 1000
+    id: eb7422d0-9862-4d89-b2ff-87a4f1f28f27
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 44_Workspace_Organization
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 96500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: "Trains bidirectional LSTM models on air quality data across multiple\
+      \ cities using pollutant, meteorological, and temporal features. Evaluates test\
+      \ performance using R\xB2, MAE, and RMSE metrics with checkpoint resumption."
+    height: 1000
+    id: eceb5c48-b3ca-461e-aa41-0b941f4d4737
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 30_Track_A_BiLSTM
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 57500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings: null
+    description: Splits engineered air quality data into train/val/test sets (70/15/15),
+      fits MinMaxScaler on training data only to prevent leakage, saves scaled baseline
+      arrays (.npz) and model-ready metadata. Validates leakage by excluding future-looking
+      features.
+    height: 1000
+    id: eef80fee-e8ec-4056-9599-d6c98ad5156e
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 07_Preprocessing
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 1600
+    x: 12000
+    y: 0
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: medium
+    description: "Trains Random Forest models across multiple cities to predict AQI\
+      \ using meteorological, temporal, and pollutant features. Evaluates performance\
+      \ (R\xB2, MAE, RMSE) per city with checkpoint recovery and generates a comparative\
+      \ summary."
+    height: 1000
+    id: f5067427-1dc8-4384-b64d-4a286ae7fe87
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 18_Track_A_RF_All_Cities
+    parent_id: null
+    properties: {}
+    status: 3
+    type: 1
+    variables: null
+    width: 1600
+    x: 0
+    y: 24500
+  - auto_size: false
+    canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    compute_settings:
+      compute_environment_type: 2
+      ephemeral_storage_gib: 20
+      size: large
+    description: 'Cleans raw CPCB air quality data: removes duplicates, fills gaps
+      via forward-fill/interpolation, caps outliers using domain bounds, aggregates
+      to hourly, computes CPCB AQI sub-indices and categories, drops irrecoverable
+      rows, and saves cleaned parquet files per city with summary statistics.'
+    height: 1000
+    id: fc6c8c24-fc50-41d9-9c51-4d19c048f1c2
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    name: 04_Data_Cleaning
+    parent_id: null
+    properties: {}
+    status: 1
+    type: 1
+    variables: null
+    width: 1600
+    x: 6000
+    y: 0
+  canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+  edges:
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: 520af30c-a95c-47f5-a267-f10d259efb36
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: 535ca9e0-ff43-4c62-a206-6e99c74b53b8
+    target: d1d3c6f4-a381-472e-9a43-abd4ff66ee0f
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: 5877e719-d7a2-49f4-b735-a4c47d6827a1
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: e61d1e23-2dd2-437e-9113-47184fb27ae3
+    target: 535ca9e0-ff43-4c62-a206-6e99c74b53b8
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: 5c971826-6c5c-4fdd-97df-88906161730b
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: 2d2d0e3d-84ce-49b4-8377-8689872f1936
+    target: eef80fee-e8ec-4056-9599-d6c98ad5156e
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: 6b34f273-2d46-4718-aa6b-76f0f2b6f12d
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: d99accbd-56b5-47da-a334-00ce1bb2a510
+    target: fc6c8c24-fc50-41d9-9c51-4d19c048f1c2
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: 738ef9a5-68cd-4d95-835e-7a5528e590ab
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: fc6c8c24-fc50-41d9-9c51-4d19c048f1c2
+    target: 5bb241cb-bcf0-4d03-b8b1-bcc0a95619d8
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: a4c69279-1466-4269-af01-74442beb082c
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: 6c3c5c5b-fa47-4ffd-9c9b-ad44814b0534
+    target: 3b003169-4154-49d5-a2fe-448eb6e799f3
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: b38cb2ce-5e94-473c-82b9-c29928427083
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: 5bb241cb-bcf0-4d03-b8b1-bcc0a95619d8
+    target: 2d2d0e3d-84ce-49b4-8377-8689872f1936
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: b5581c73-84f9-4dc4-8b6f-22dd0118a65f
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: eef80fee-e8ec-4056-9599-d6c98ad5156e
+    target: e61d1e23-2dd2-437e-9113-47184fb27ae3
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: ba3bca0f-1e02-47ec-aa51-87abdac0bd9c
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: 3ab2c7d7-07f3-446b-8565-4d4ca60b1dd4
+    target: 0ed809f0-2882-4fac-a449-cd41614742ff
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: e61b60e8-9a94-4738-9556-5e0ccb4fa606
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: cc7b040e-e45f-4d90-8c00-c5e90e4b7e21
+    target: 6c3c5c5b-fa47-4ffd-9c9b-ad44814b0534
+  - canvas_id: f7b7d05b-a23b-404d-9ad6-d640460791dd
+    id: f5548ce3-15b4-44c7-bd0e-e47e446a90bc
+    layer_id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+    source: 0ed809f0-2882-4fac-a449-cd41614742ff
+    target: d99accbd-56b5-47da-a334-00ce1bb2a510
+  id: 1aee2fc1-022b-45fd-855a-3bd7dc4bbcce
+  name: Development
+  type: 1
+assets: []
