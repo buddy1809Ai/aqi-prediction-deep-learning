@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # AQI Prediction Using Deep Learning
 ### A Dual-Track Research Study — CPCB Multi-City India Dataset
 
@@ -106,7 +105,7 @@ See `docs/` for full paper package, reviewer Q&A, and internship summary.
 ## License
 
 MIT License — see [LICENSE](LICENSE)
-=======
+
 # AQI Prediction Deep Learning
 
 Research project on AQI Estimation and Forecasting using:
@@ -119,4 +118,4 @@ Research project on AQI Estimation and Forecasting using:
 - CNN-BiLSTM
 
 Author: Aman Gajbhiye
->>>>>>> 9244e20d94359e8bdd2fff52b2b4745db789317d
+
