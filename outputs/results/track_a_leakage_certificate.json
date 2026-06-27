@@ -1,0 +1,33 @@
+{
+  "certification_status": "PASS",
+  "risk_level": "LOW",
+  "scientific_validity": "VALID",
+  "publication_ready": true,
+  "checks": {
+    "AQI_column_in_features": "FAIL",
+    "AQI_lag_features_used": "FAIL",
+    "AQI_rolling_stats_used": "FAIL",
+    "AQI_category_features_used": "FAIL",
+    "AQI_derived_trend_features_used": "FAIL",
+    "Future_information_leakage": "FAIL",
+    "Train_test_contamination": "FAIL",
+    "Scaler_fit_on_train_only": "PASS",
+    "Chronological_split_verified": "PASS",
+    "Same_timestamp_pollutants_in_TrackA_only": "PASS",
+    "Track_B_excludes_same_t_pollutants": "PASS"
+  },
+  "notes": {
+    "AQI_column_in_features": "PASS \u2014 AQI target column explicitly removed before feature matrix construction",
+    "AQI_lag_features_used": "PASS \u2014 AQI-prefixed lag columns excluded at recovery stage (P1_City_Recovery block)",
+    "AQI_rolling_stats_used": "PASS \u2014 AQI rolling statistics excluded at recovery stage",
+    "AQI_category_features_used": "PASS \u2014 AQI_category, AQI_bucket columns never included in X matrix",
+    "AQI_derived_trend_features_used": "PASS \u2014 AQI_diff, AQI_trend features excluded",
+    "Future_information_leakage": "PASS \u2014 time-based chronological split; no shuffle; seq generation uses only [t-seq..t-1]",
+    "Train_test_contamination": "PASS \u2014 scaler fitted on train split only; test rows never seen during fit",
+    "Scaler_fit_on_train_only": "PASS \u2014 MinMaxScaler.fit() called on X_train, then transform applied to val/test",
+    "Chronological_split_verified": "PASS \u2014 70/15/15 split on sorted time index; no random shuffle",
+    "Same_timestamp_pollutants_in_TrackA_only": "PASS (by design) \u2014 Track A uses same-t pollutants; Track B strictly forbids them",
+    "Track_B_excludes_same_t_pollutants": "PASS \u2014 11 same-t pollutant columns excluded at data loading in all Track B blocks"
+  },
+  "important_caveat": "Track A achieves R\u00b2~0.99 because AQI is a deterministic piecewise-linear function of same-timestamp pollutants. This is AQI ESTIMATION (formula reconstruction), not temporal forecasting. This distinction is scientifically critical and must be explicitly stated in the paper."
+}

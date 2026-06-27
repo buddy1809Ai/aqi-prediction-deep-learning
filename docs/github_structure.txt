@@ -1,0 +1,58 @@
+
+AQI_RESEARCH_PROJECT/
+├── README.md                          # Project overview, setup, results
+├── requirements.txt                   # Python dependencies
+├── .gitignore                         # Exclude large parquets, models, npz
+│
+├── data/
+│   └── sample_data_only/              # Small sample CSVs for reproducibility
+│       └── Delhi_NCR_2023_sample.csv  # 1000-row sample (git-safe)
+│
+├── notebooks/                         # Jupyter-style reference notebooks
+│   ├── 01_Data_Audit.md               # Phase 0 inventory documentation
+│   ├── 02_Data_Cleaning.md            # Cleaning pipeline reference
+│   ├── 03_Feature_Engineering.md      # Feature engineering reference
+│   ├── 04_Recovery.md                 # City recovery pipeline
+│   ├── 05_Leakage_Audit.md            # Leakage experiments documentation
+│   ├── 06_Track_A_Models.md           # Track A model training reference
+│   ├── 07_Track_B_Models.md           # Track B forecasting reference
+│   ├── 08_Comparison.md               # Scientific comparison reference
+│   └── 09_Paper_Results.md            # Publication results reference
+│
+├── src/
+│   ├── preprocessing/
+│   │   ├── cleaning.py                # Hourly aggregation + AQI formula
+│   │   ├── feature_engineering.py    # Lag/rolling/cyclical features
+│   │   └── recovery.py               # Imputation pipeline
+│   ├── features/
+│   │   ├── feature_catalog.py        # Feature definitions + leakage flags
+│   │   └── feature_selection.py      # Track A / Track B feature sets
+│   ├── models/
+│   │   ├── baseline_models.py        # Ridge, RF, GBR, XGB training
+│   │   ├── lstm_model.py             # LSTM architecture + training loop
+│   │   ├── bilstm_model.py           # BiLSTM architecture
+│   │   └── cnn_bilstm_model.py       # CNN-BiLSTM architecture
+│   ├── evaluation/
+│   │   ├── metrics.py                # R², MAE, RMSE, inference time
+│   │   ├── leakage_audit.py          # Leakage certification logic
+│   │   └── comparison.py             # Model ranking + effect size
+│   └── deployment/
+│       ├── estimation_app.py         # Track A GradBoost inference
+│       └── forecasting_app.py        # Track B GradBoost 3-horizon inference
+│
+├── outputs/
+│   ├── figures/  → comparison_figures/  (13 publication PNGs)
+│   └── reports/  → all .md and .csv files
+│
+├── streamlit_app/
+│   ├── app.py                        # Main Streamlit entry point
+│   ├── pages/
+│   │   ├── 1_AQI_Estimation.py       # Track A page
+│   │   └── 2_AQI_Forecasting.py      # Track B page
+│   └── utils/
+│       └── aqi_utils.py              # AQI category + health recommendations
+│
+└── docs/
+    ├── paper_package.md              # Full paper draft
+    ├── reviewer_qa.md                # 30 reviewer Q&A
+    └── internship_summary.md         # 1-page executive summary

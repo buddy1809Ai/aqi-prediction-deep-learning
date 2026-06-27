@@ -1,0 +1,19 @@
+{
+  "track_a_best_model": "GradBoost",
+  "track_a_best_r2": 0.9906277777777777,
+  "track_a_cl_avg_r2": 0.9485111111111111,
+  "track_a_dl_avg_r2": 0.5021518518518518,
+  "track_a_lstm_r2": 0.6411388888888889,
+  "track_a_bilstm_r2": 0.5896944444444444,
+  "track_a_cnnbilstm_r2": 0.2756222222222222,
+  "track_b_best_model": "GradBoost",
+  "track_b_best_r2": 0.4997092592592593,
+  "track_b_lstm_r2": 0.2768074074074074,
+  "track_b_gbr_r2": 0.4997092592592592,
+  "best_city_a": "Jodhpur",
+  "worst_city_a": "Hyderabad",
+  "horizon_best": "t+1h",
+  "track_b_r2_t1h": 0.5313,
+  "track_b_r2_t6h": 0.1774509259259259,
+  "track_b_r2_t24h": 0.10456574074074074
+}
